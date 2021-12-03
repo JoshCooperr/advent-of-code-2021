@@ -2,6 +2,7 @@ module AoC where
 
 import Day1 (main)
 import Day2 (main)
+import Day3 (main)
 
 main :: IO ()
 main = do
@@ -9,3 +10,5 @@ main = do
     Day1.main
     putStrLn "Day 2"
     Day2.main
+    putStrLn "Day 3"
+    Day3.main
