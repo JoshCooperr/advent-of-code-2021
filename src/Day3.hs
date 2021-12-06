@@ -56,7 +56,6 @@ part2 bins = o * c
 main :: IO()
 main = do
     input <- readFile "data/day3.data"
-    putStr "\tPart 1: "
-    print (part1 (lines input))
-    putStr "\tPart 2: "
-    print (part2 (lines input))
+    putStrLn "Day 3"
+    putStr "\tPart 1: "; print (part1 (lines input))
+    putStr "\tPart 2: "; print (part2 (lines input))

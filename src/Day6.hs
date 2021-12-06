@@ -1,9 +1,9 @@
 module Day6 (main) where
 
-import Data.Text
-import Data.Void (Void)
-import Text.Megaparsec
-import Text.Megaparsec.Char
+import Data.Text ( Text, pack )
+import Data.Void ( Void )
+import Text.Megaparsec ( parse, sepBy, some, Parsec )
+import Text.Megaparsec.Char ( char, digitChar )
 
 ----- Data types -----
 type Counts = (Int, Int, Int, Int, Int, Int, Int, Int, Int)
@@ -48,9 +48,7 @@ part2 fs = totalCount $ simulate (counts fs) 256
 main :: IO()
 main = do
     input <- readFile "data/day6.data"
-    putStrLn "Day 6"
-    putStr "\tPart 1: "
-    print (part1 (parseInput input))
-    putStr "\tPart 2: "
-    print (part2 (parseInput input))
+    putStrLn "Day 6";
+    putStr "\tPart 1: "; print (part1 (parseInput input))
+    putStr "\tPart 2: "; print (part2 (parseInput input))
     

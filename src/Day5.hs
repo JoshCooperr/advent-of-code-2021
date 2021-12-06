@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Day5 where
 
-import Data.Text (Text, pack)
-import Data.Void (Void)
-import Text.Megaparsec
-import Text.Megaparsec.Char
+import Data.Text ( Text, pack )
+import Data.Void ( Void )
+import Text.Megaparsec ( parse, sepBy, some, Parsec )
+import Text.Megaparsec.Char ( string, char, digitChar )
 
 ----- Types -----
 type Coordinate = (Int, Int)
@@ -46,7 +46,7 @@ isHorizontal ((_, y1), (_, y2)) = y1 == y2
 
 -- This can probably be done with a foldr?
 replace :: (a -> a) -> Int -> [a] -> [a]
-replace f 0 (x:xs) = (f x):xs
+replace f 0 (x:xs) = f x : xs
 replace f i (x:xs) = x : replace f (i-1) xs
 replace _ _ [] = []
 
@@ -106,8 +106,7 @@ part2 ls = numIntersections (drawLines ls d)
 main :: IO()
 main = do
     file <- readFile "data/day5.data"
-    putStr "\tPart 1: "
-    print(part1 (parseInput file))
-    putStr "\tPart 2: "
-    print(part2 (parseInput file))
+    putStrLn "Day 5"
+    putStr "\tPart 1: "; print(part1 (parseInput file))
+    putStr "\tPart 2: "; print(part2 (parseInput file))
     

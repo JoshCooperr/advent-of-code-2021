@@ -37,5 +37,6 @@ parseFile file = map read (lines file)
 main :: IO()
 main = do
     input <- readFile "data/day1.data"
+    putStrLn "Day 1"
     putStr "\tPart 1: "; print (part1zip (parseFile input))
     putStr "\tPart 2: "; print (part2zip (parseFile input))

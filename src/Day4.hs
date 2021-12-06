@@ -1,9 +1,9 @@
 module Day4 where
 
-import Data.Text
+import Data.Text ( Text, pack )
 import Data.Void (Void)
-import Text.Megaparsec
-import Text.Megaparsec.Char
+import Text.Megaparsec ( parse, many, sepBy, some, Parsec )
+import Text.Megaparsec.Char ( char, digitChar, hspace1 )
 
 -- Board is a list of length 25 (5x5): (number, marked?)
 type Board = [(Int, Bool)]
@@ -113,11 +113,9 @@ part2 bs ns = score
 main :: IO()
 main = do
     file <- readFile "data/day4.data"
-    putStr "(Part 1, Part 2): "
+    putStrLn "Day 4"
     let
         (bs, ns) = parseInput file
         in do
-        putStr "\t"
-        print (part1 bs ns)
-        putStr "\t"
-        print (part2 bs ns)
+        putStr "\tPart 1: "; print (part1 bs ns)
+        putStr "\tPart 2: "; print (part2 bs ns)

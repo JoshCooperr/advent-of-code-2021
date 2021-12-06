@@ -1,22 +1,27 @@
 module AoC where
 
--- import Day1 (main)
--- import Day2 (main)
--- import Day3 (main)
--- import Day4 (main)
--- import Day5 (main)
+import System.Environment (getArgs)
+import Day1 (main)
+import Day2 (main)
+import Day3 (main)
+import Day4 (main)
+import Day5 (main)
 import Day6 (main)
+
+type Main = (Int, IO())
+
+mains :: [Main]
+mains = zip [1..] [
+    Day1.main,
+    Day2.main,
+    Day3.main,
+    Day4.main,
+    Day5.main,
+    Day6.main
+    ]
 
 main :: IO ()
 main = do
-    -- putStrLn "Day 1"
-    -- Day1.main
-    -- putStrLn "Day 2"
-    -- Day2.main
-    -- putStrLn "Day 3"
-    -- Day3.main
-    -- putStrLn "Day 4"
-    -- Day4.main
-    -- putStrLn "Day 5"
-    -- Day5.main
-    Day6.main
+    args <- getArgs
+    let toRun = if null args then [1..] else map read args
+    sequence_ [io | io <- [main | (i, main) <- mains, i `elem` toRun]]
