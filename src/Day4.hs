@@ -116,5 +116,8 @@ main = do
     putStr "(Part 1, Part 2): "
     let
         (bs, ns) = parseInput file
-        in
-        print (part1 bs ns, part2 bs ns)
+        in do
+        putStr "\t"
+        print (part1 bs ns)
+        putStr "\t"
+        print (part2 bs ns)
