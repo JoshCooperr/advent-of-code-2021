@@ -9,7 +9,7 @@ import Text.Megaparsec.Char
 ----- Types -----
 type Coordinate = (Int, Int)
 type Line       = (Coordinate, Coordinate)
-type Diagram    = [[Int]] 
+type Diagram    = [[Int]]
 
 ----- Parsing -----
 type Parser = Parsec Void Text
@@ -18,7 +18,7 @@ coord :: Parser Coordinate
 coord = do
     x <- some digitChar
     _ <- char ','
-    y <- some digitChar 
+    y <- some digitChar
     return (read x, read y)
 
 line :: Parser Line
@@ -38,10 +38,10 @@ parseInput file =
         _           -> undefined
 
 ----- Solution -----
-isVertical :: Line -> Bool 
+isVertical :: Line -> Bool
 isVertical ((x1, _), (x2, _)) = x1 == x2
 
-isHorizontal :: Line -> Bool 
+isHorizontal :: Line -> Bool
 isHorizontal ((_, y1), (_, y2)) = y1 == y2
 
 -- This can probably be done with a foldr?
@@ -76,8 +76,7 @@ addLine l d = addline' coords d
         addline' (c:cs) d = addline' cs (crossCoord c d)
 
 drawLines :: [Line] -> Diagram -> Diagram
-drawLines [] d = d
-drawLines (l:ls) d = drawLines ls (addLine l d)
+drawLines ls d = foldl (flip addLine) d ls
 
 numIntersections :: Diagram -> Int
 numIntersections d = length (filter (>1) ns)
