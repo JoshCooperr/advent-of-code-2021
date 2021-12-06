@@ -28,10 +28,21 @@ parse s = case words s of
     ["down", x] -> Down (read x)
     _ -> error "panic"
 
+-- commandParser :: Parsec.Parsec String () Command
+-- commandParser = do
+--     cmd <- Parsec.many1 Parsec.letter
+--     Parsec.spaces 
+--     x <- Parsec.many1 Parsec.digit
+--     case cmd of
+--         "forward" -> return (Forward (read x))
+--         "up"      -> return (Up (read x))
+--         "down"    -> return (Down (read x))
+--         _         -> undefined
+
+
 main :: IO ()
 main = do
+    -- Parsec.parse commandParser "" "forward 1"
     input <- readFile "data/day2.data"
-    putStr "Part 1: "
-    print (part1 (map parse (lines input)) 0 0)
-    putStr "Part 2: "
-    print (part2 (lines input) 0 0 0)
+    putStr "\tPart 1: "; print (part1 (map parse (lines input)) 0 0)
+    putStr "\tPart 2: "; print (part2 (lines input) 0 0 0)
