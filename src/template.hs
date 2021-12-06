@@ -22,8 +22,6 @@ main :: IO()
 main = do
     input <- readFile "data/dayX.sample.data"
     putStrLn "Day X"
-    putStr "\tPart 1: "
-    print (part1 0)
-    putStr "\tPart 2: "
-    print (part2 0)
+    putStr "\tPart 1: "; print (part1 0)
+    putStr "\tPart 2: "; print (part2 0)
     
