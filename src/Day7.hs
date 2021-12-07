@@ -11,7 +11,7 @@ type Parser = Parsec Void Text
 inputParser :: Parser [Int]
 inputParser = do
     nums <- sepBy (some digitChar) (char ',')
-    return (Prelude.map read nums)
+    return (map read nums)
 
 parseInput :: String -> [Int]
 parseInput file = do
@@ -20,26 +20,22 @@ parseInput file = do
         _         -> undefined
 
 ----- Solution -----
-fixedFuelCost :: [Int] -> Int -> Int
-fixedFuelCost ns t = sum [abs (t - n) | n <- ns]
-
-dynamicCost :: Int -> Int -> Int
-dynamicCost a b = sum [1..(abs (a - b))]
-
-fuelCost :: [Int] -> Int -> Int 
-fuelCost ns t = sum [dynamicCost n t | n <- ns]
+fuelCost :: (Int -> Int -> Int) -> [Int] -> Int -> Int 
+fuelCost cost ns t = sum [cost n t | n <- ns]
 
 part1 :: [Int] -> Int 
-part1 ns = minimum [fixedFuelCost ns t | t <- [minN..maxN]]
+part1 ns = minimum [fuelCost cost ns t | t <- [minN..maxN]]
     where
-        minN = minimum ns
-        maxN = maximum ns
+        cost a b = abs (a-b)
+        minN     = minimum ns
+        maxN     = maximum ns
 
 part2 :: [Int] -> Int 
-part2 ns = minimum [fuelCost ns t | t <- [minN..maxN]]
+part2 ns = minimum [fuelCost cost ns t | t <- [minN..maxN]]
     where
-        minN = minimum ns
-        maxN = maximum ns
+        cost a b = sum [1..(abs (a-b))]
+        minN     = minimum ns
+        maxN     = maximum ns
 
 main :: IO()
 main = do
