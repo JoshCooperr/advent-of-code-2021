@@ -46,7 +46,7 @@ part2 cmds = part2' cmds 0 0 0
     where
         part2' [] _ h d = h * d
         part2' (c:cs) a h d = case c of
-            Forward x -> part2' cs a (h+x) (d +(a*x))
+            Forward x -> part2' cs a (h+x) (d+(a*x))
             Down x    -> part2' cs (a+x) h d
             Up x      -> part2' cs (a-x) h d
 
