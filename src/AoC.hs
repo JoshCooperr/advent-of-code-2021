@@ -8,6 +8,7 @@ import Day4 (main)
 import Day5 (main)
 import Day6 (main)
 import Day7 (main)
+import Day8 (main)
 
 type Main = (Int, IO())
 
@@ -19,7 +20,8 @@ mains = zip [1..] [
     Day4.main,
     Day5.main,
     Day6.main,
-    Day7.main
+    Day7.main,
+    Day8.main
     ]
 
 main :: IO ()

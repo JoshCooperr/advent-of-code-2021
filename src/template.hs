@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module DayX (main) where
 
 import Data.Text
