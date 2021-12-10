@@ -2,7 +2,7 @@
 module DayX (main) where
 
 import Data.Text
-import Data.Void (Void)
+import Data.Void ( Void )
 import Text.Megaparsec
 import Text.Megaparsec.Char
 
