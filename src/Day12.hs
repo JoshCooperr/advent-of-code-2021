@@ -84,7 +84,6 @@ main :: IO()
 main = do
     input <- readFile "data/day12.data"
     putStrLn "Day 12"
-    print (findPaths "start" "end" 1 (parseInput input))
     putStr "\tPart 1: "; print (part1 $ parseInput input)
     putStr "\tPart 2: "; print (part2 $ parseInput input)
     
