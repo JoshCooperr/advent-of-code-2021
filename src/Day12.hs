@@ -3,7 +3,7 @@ module Day12 (main) where
 
 import Data.Text ( pack, Text )
 import Data.Void ( Void )
-import Data.List ( sort )
+import Data.List ( sortBy )
 import Data.Map as M ( Map, adjust, empty, insert, member, lookup, elems, fromList, keys )
 import Data.Set as S ( Set, fromList, insert, empty, toList )
 import Text.Megaparsec ( parse, many, sepBy, Parsec )
@@ -48,12 +48,15 @@ isBig = all isUpper
 
 canVisit :: Node -> Int -> Map Node Int -> Bool
 canVisit "start" _ _ = False 
+canVisit n 1 cnts
+    | isBig n             = True
+    | otherwise           = maximum (M.elems cnts) <= 1
 canVisit n limit cnts
-    | isBig n   = True
-    | null cs   = True
-    | otherwise = maximum cs <= limit
+    | isBig n        = True
+    | length cs == 1 = head cs <= limit
+    | otherwise      = head cs <= limit && head (tail cs) < limit
         where
-            cs = sort $ M.elems cnts
+            cs = sortBy (flip compare) (M.elems cnts)
 
 findPaths :: Node -> Node -> Int -> Graph -> [Path]
 findPaths start dest limit g = explore start M.empty
@@ -79,7 +82,7 @@ part2 g = length $ findPaths "start" "end" 2 g
 
 main :: IO()
 main = do
-    input <- readFile "data/day12.sample.data"
+    input <- readFile "data/day12.data"
     putStrLn "Day 12"
     print (findPaths "start" "end" 1 (parseInput input))
     putStr "\tPart 1: "; print (part1 $ parseInput input)
