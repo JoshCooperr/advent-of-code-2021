@@ -100,8 +100,8 @@ evaluate (_, 2, Sub ps) = minimum $ map evaluate ps
 evaluate (_, 3, Sub ps) = maximum $ map evaluate ps
 evaluate (_, 5, Sub [p1, p2]) = if evaluate p1 > evaluate p2 then 1 else 0
 evaluate (_, 6, Sub [p1, p2]) = if evaluate p1 < evaluate p2 then 1 else 0
-evaluate (_, 6, Sub ps) = undefined
-evaluate (_, 7, Sub ps) = if evaluate (head ps) == evaluate (ps !! 1) then 1 else 0
+evaluate (_, 7, Sub [p1, p2]) = if evaluate p1 == evaluate p2 then 1 else 0
+evaluate _ = undefined
 
 getPacket :: String -> Packet
 getPacket hex = packet

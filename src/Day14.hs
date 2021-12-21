@@ -4,9 +4,10 @@ module Day14 (main) where
 import Data.Text ( pack, Text )
 import Data.Void ( Void )
 import Data.Map as M
-    ( Map, fromList, fromListWith, lookup, toList )
+    ( Map, fromList, fromListWith, lookup, toList, keys, lookup )
 import Data.List ( minimumBy )
 import Data.Function ( on )
+import Data.Maybe ( fromJust )
 import Text.Megaparsec ( parse, many, sepBy, Parsec )
 import Text.Megaparsec.Char ( letterChar, newline, space, string )
 
@@ -33,45 +34,19 @@ parseInput file = case parse inputParser "" (pack file) of
     _             -> undefined
 
 ----- Solution -----
-mostCommon' :: String -> (Char, Int)
-mostCommon' str = minimumBy (flip compare `on` snd) chars
-    where
-        chars = toList $ fromListWith (+) [(c, 1) | c <- str]
-
-leastCommon' :: String -> (Char, Int)
-leastCommon' str = minimumBy (compare `on` snd) chars
-    where
-        chars = toList $ fromListWith (+) [(c, 1) | c <- str]
-
--- applyRules :: String -> RuleMap -> String
--- applyRules [] _        = []
--- applyRules (x:"") _    = [x]
--- applyRules (a:b:cs) rm = new ++ applyRules (b:cs) rm
---     where
---         new = case M.lookup (a,b) rm of
---             Just c  -> a : c : ""
---             Nothing -> ""
-
--- stepN :: Int -> RuleMap -> String -> String
--- stepN 0 rm str = str
--- stepN n rm str = stepN (n-1) rm (applyRules str rm)
-
---------------------
---------------------
-
 mostCommon :: PairMap -> (Char, Int)
-mostCommon pm = minimumBy (flip compare `on` snd) [(c, ceiling (cnt / 2)) | (c, cnt) <- chars]
+mostCommon pm = minimumBy (flip compare `on` snd) cs
     where
-        as = [(a, fromIntegral cnt) :: (Char, Float) | ((a, _), cnt) <- toList pm]
-        bs = [(b, fromIntegral cnt) :: (Char, Float) | ((_, b), cnt) <- toList pm]
-        chars = toList $ fromListWith (+) (as ++ bs)
+        as = fromListWith (+) [(a, cnt) | ((a, _), cnt) <- toList pm]
+        bs = fromListWith (+) [(b, cnt) | ((_, b), cnt) <- toList pm]
+        cs = [(c, cnt) | c <- keys as, let cnt = fromJust $ max (M.lookup c as) (M.lookup c bs)]
 
 leastCommon :: PairMap -> (Char, Int)
-leastCommon pm = minimumBy (compare `on` snd) [(c, ceiling cnt) | (c, cnt) <- chars]
+leastCommon pm = minimumBy (compare `on` snd) cs
     where
-        as = [(a, fromIntegral cnt / 2) :: (Char, Float) | ((a, _), cnt) <- toList pm]
-        bs = [(b, fromIntegral cnt / 2) :: (Char, Float) | ((_, b), cnt) <- toList pm]
-        chars = toList $ fromListWith (+) (as ++ bs)
+        as = fromListWith (+) [(a, cnt) | ((a, _), cnt) <- toList pm]
+        bs = fromListWith (+) [(b, cnt) | ((_, b), cnt) <- toList pm]
+        cs = [(c, cnt) | c <- keys as, let cnt = fromJust $ max (M.lookup c as) (M.lookup c bs)]
 
 step :: RuleMap -> PairMap -> PairMap
 step rm pm = fromListWith (+) $ step' rm (toList pm)
@@ -114,9 +89,6 @@ main :: IO()
 main = do
     input <- readFile "data/day14.data"
     putStrLn "Day 14"
-    print (mostCommon (pairMap "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCBNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNHHNHNHNHNHNHNNNNNHNHNHNHHHHNNHNHNNNBBDSFGSDFGSDFNNNNNNNNNNNN"))
-    print (mostCommon' "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCBNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNHHNHNHNHNHNHNNNNNHNHNHNHHHHNNHNHNNNBBDSFGSDFGSDFNNNNNNNNNNNN")
-
     putStr "\tPart 1: "; print (part1 $ parseInput input)
     putStr "\tPart 2: "; print (part2 $ parseInput input)
     
